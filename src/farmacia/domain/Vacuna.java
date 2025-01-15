@@ -16,11 +16,8 @@ public class Vacuna extends Producto {
 		if(obj==null) {
 			return false;
 		}
-		Vacuna vacunaIngresada = ((Vacuna) obj);
-		boolean mismaCantidadDeDosis = this.cantidadDeAplicacionesRequeridas == (vacunaIngresada)
+		return super.equals(obj) && this.cantidadDeAplicacionesRequeridas == (((Vacuna) obj))
 				.getCantidadDeAplicacionesRequeridas();
-
-		return super.equals(obj) && mismaCantidadDeDosis;
 	}
 
 	@Override

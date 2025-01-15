@@ -2,7 +2,7 @@ package farmacia.domain;
 
 import java.math.BigDecimal;
 
-import farmacia.enums.Aroma;
+import farmacia.domain.enums.Aroma;
 
 public class Higiene extends Producto {
 
@@ -17,13 +17,12 @@ public class Higiene extends Producto {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null) {
+		if (obj == null) {
 			return false;
 		}
-		Higiene producto = ((Higiene) obj);
-		boolean mismoAroma = this.aroma.equals(producto.getAroma());
-		boolean ambosHipoalergenicos = this.hipoalergenico == (producto.isHipoalergenico());
-		return super.equals(obj) && mismoAroma && ambosHipoalergenicos;
+
+		return super.equals(obj) && this.aroma.equals(((Higiene) obj).getAroma())
+				&& this.hipoalergenico == (((Higiene) obj).isHipoalergenico());
 	}
 
 	@Override

@@ -33,6 +33,23 @@ public abstract class Producto implements Comparable<Producto> {
 	public String toString() {
 		return "id = " + id + " nombre = " + nombre + " precio = " + precio + " stock = " + stock;
 	}
+	
+	public void sumarStock(int stock) {
+		stockValido(stock);
+		
+		this.stock+=stock;
+
+	}
+
+	private void stockValido(int stock) {
+		if(stock<=0) {
+			throw new IllegalArgumentException("El stock ingresado es inferior o igual a 0, está cantidad es invalida.");
+		}
+	}
+	
+	public void quitarStock(int stock) {
+		this.stock-=stock;
+	}
 
 	public Long getId() {
 		return id;

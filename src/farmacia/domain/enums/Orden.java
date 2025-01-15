@@ -1,4 +1,4 @@
-package farmacia.enums;
+package farmacia.domain.enums;
 
 public enum Orden {
 	CRECIENTE,

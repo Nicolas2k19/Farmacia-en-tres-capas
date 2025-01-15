@@ -2,7 +2,7 @@ package farmacia.domain;
 
 import java.math.BigDecimal;
 
-import farmacia.enums.TipoMedicamento;
+import farmacia.domain.enums.TipoMedicamento;
 
 public class Medicamento extends Producto {
 
@@ -17,13 +17,11 @@ public class Medicamento extends Producto {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null) {
+		if (obj == null) {
 			return false;
-		}	
-		Medicamento medicamento = ((Medicamento) obj);
-		boolean mismoTipo = this.tipo.equals(medicamento.getTipo());
-		boolean mismaDosis = this.dosis == ((Medicamento) obj).getDosis();
-		return super.equals(obj) && mismoTipo && mismaDosis;
+		}
+		return super.equals(obj) && this.tipo.equals(((Medicamento) obj).getTipo())
+				&& this.dosis == ((Medicamento) obj).getDosis();
 
 	}
 

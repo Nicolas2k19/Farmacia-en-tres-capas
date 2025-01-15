@@ -1,6 +1,7 @@
 package farmacia.controller;
 
-import farmacia.enums.Orden;
+import farmacia.domain.Producto;
+import farmacia.domain.enums.Orden;
 import farmacia.service.ProductoService;
 
 public class ProductoController {
@@ -15,4 +16,11 @@ public class ProductoController {
 		this.productoService.obtenerProductos(ordenAlfabetico).stream().forEach(producto -> System.out.println(producto));
 	};
 
+	public void ingresarNuevoProducto(Producto nuevoProducto) throws Exception {
+		productoService.ingresarNuevoProducto(nuevoProducto);
+	}
+	
+	public void venderProducto(Producto productoAVender) throws Exception {
+		productoService.venderProducto(productoAVender);
+	}
 }
