@@ -3,13 +3,16 @@ package farmacia.domain;
 import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
+import lombok.Getter;
+
+@Getter
 @Entity
 public class Vacuna extends Producto {
 
 	private int cantidadDeAplicacionesRequeridas;
 
-	public Vacuna(Long id, String nombre, BigDecimal precio, int stock, int cantidadDeAplicacionesRequeridas) {
-		super(id, nombre, precio, stock);
+	public Vacuna(String nombre, BigDecimal precio, int stock, int cantidadDeAplicacionesRequeridas) {
+		super(nombre, precio, stock);
 		this.cantidadDeAplicacionesRequeridas = cantidadDeAplicacionesRequeridas;
 	}
 
@@ -27,12 +30,5 @@ public class Vacuna extends Producto {
 		return super.toString() + " Cantidad de aplicaciones requeridas = " + cantidadDeAplicacionesRequeridas;
 	}
 
-	public int getCantidadDeAplicacionesRequeridas() {
-		return cantidadDeAplicacionesRequeridas;
-	}
-
-	public void setCantidadDeAplicacionesRequeridas(int cantidadDeAplicacionesRequeridas) {
-		this.cantidadDeAplicacionesRequeridas = cantidadDeAplicacionesRequeridas;
-	}
 
 }

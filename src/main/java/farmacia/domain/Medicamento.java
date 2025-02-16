@@ -4,14 +4,19 @@ import java.math.BigDecimal;
 
 import farmacia.domain.enums.TipoMedicamento;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 public class Medicamento extends Producto {
 
 	private TipoMedicamento tipo;
 	private double dosis;
 
-	public Medicamento(Long id, String nombre, BigDecimal precio, int stock, TipoMedicamento tipo, double dosis) {
-		super(id, nombre, precio, stock);
+	public Medicamento(String nombre, BigDecimal precio, int stock, TipoMedicamento tipo, double dosis) {
+		super(nombre, precio, stock);
 		this.tipo = tipo;
 		this.dosis = dosis;
 	}
@@ -31,20 +36,5 @@ public class Medicamento extends Producto {
 		return super.toString() + " tipo = " + tipo + ", dosis = " + dosis;
 	}
 
-	public TipoMedicamento getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoMedicamento tipo) {
-		this.tipo = tipo;
-	}
-
-	public double getDosis() {
-		return dosis;
-	}
-
-	public void setDosis(double dosis) {
-		this.dosis = dosis;
-	}
 
 }

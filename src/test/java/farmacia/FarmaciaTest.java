@@ -1,22 +1,17 @@
 package farmacia;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import farmacia.domain.Farmacia;
 import farmacia.domain.enums.Orden;
 import farmacia.service.impl.FarmaciaService;
@@ -38,7 +33,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void ingresarFarmacia_conObjetoFarmacia_retornaVoid() {
-		Farmacia nuevaFarmacia = new Farmacia(1l, "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
 		farmaciaService.ingresarFarmacia(nuevaFarmacia);
 		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
 
@@ -47,8 +42,8 @@ public class FarmaciaTest {
 
 	@Test
 	public void modificarFarmacia_conFarmaciaModificada_retornaVoid() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "NUEVA FARMACIA 1", "San miguel", "2042370424", "Zuviria", 2168);
-		Farmacia copiaFarmacia = new Farmacia(1l, "NUEVA FARMACIA 1", "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia farmaciaAModificar = new Farmacia( "NUEVA FARMACIA 1", "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia copiaFarmacia = new Farmacia( "NUEVA FARMACIA 1", "San miguel", "2042370424", "Zuviria", 2168);
 		farmaciaService.ingresarFarmacia(farmaciaAModificar);
 		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
 
@@ -66,7 +61,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void ingresarFarmacia_conFarmaciaNombreNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, null, "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia farmaciaAModificar = new Farmacia( null, "San miguel", "2042370424", "Zuviria", 2168);
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
@@ -77,7 +72,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void ingresarFarmacia_conFarmaciaLocalidadNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", null, "2042370424", "Zuviria", 2168);
+		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", null, "2042370424", "Zuviria", 2168);
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
@@ -88,7 +83,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void ingresarFarmacia_conFarmaciaCuilNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", "San miguel", null, "Zuviria", 2168);
+		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", null, "Zuviria", 2168);
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
 
@@ -98,7 +93,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void ingresarFarmacia_conFarmaciaCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", "San miguel", "2042370424", null, 2168);
+		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", "2042370424", null, 2168);
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
 
@@ -108,7 +103,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void ingresarFarmacia_conFarmaciaNroCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", "San miguel", "2042370424", "Zuviria", null);
+		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", "2042370424", "Zuviria", null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
 
@@ -118,7 +113,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void modificarFarmacia_conFarmaciaNombreNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, null, "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia farmaciaAModificar = new Farmacia( null, "San miguel", "2042370424", "Zuviria", 2168);
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
@@ -129,7 +124,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void modificarFarmacia_conFarmaciaLocalidadNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", null, "2042370424", "Zuviria", 2168);
+		Farmacia farmaciaAModificar = new Farmacia("Farmacia", null, "2042370424", "Zuviria", 2168);
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
@@ -140,7 +135,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void modificarFarmacia_conFarmaciaCuilNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", "San miguel", null, "Zuviria", 2168);
+		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", null, "Zuviria", 2168);
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
 
@@ -150,7 +145,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void modificarFarmacia_conFarmaciaCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", "San miguel", "2042370424", null, 2168);
+		Farmacia farmaciaAModificar = new Farmacia("Farmacia", "San miguel", "2042370424", null, 2168);
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
 
@@ -160,7 +155,7 @@ public class FarmaciaTest {
 
 	@Test
 	public void modificarFarmacia_conFarmaciaNroCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia(1l, "Farmacia", "San miguel", "2042370424", "Zuviria", null);
+		Farmacia farmaciaAModificar = new Farmacia("Farmacia", "San miguel", "2042370424", "Zuviria", null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
 				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
 
@@ -181,7 +176,7 @@ public class FarmaciaTest {
 	@Test
 	public void eliminarFarmacia_conIdFarmaciaExistente_retornaVoid() {
 		Long id = 1l;
-		Farmacia nuevaFarmacia = new Farmacia(id, "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia nuevaFarmacia = new Farmacia("NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
 		farmaciaService.ingresarFarmacia(nuevaFarmacia);
 		farmaciaService.eliminarFarmacia(id);
 				

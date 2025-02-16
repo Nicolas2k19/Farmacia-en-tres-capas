@@ -8,10 +8,14 @@ import java.util.stream.Collectors;
 import farmacia.domain.enums.Orden;
 import farmacia.domain.Producto;
 import farmacia.repository.interfaces.ProductoRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductoService {
 
+
 	private ProductoRepository productoRepository;
+
 
 	public ProductoService(ProductoRepository productoRepository) {
 		this.productoRepository = productoRepository;
