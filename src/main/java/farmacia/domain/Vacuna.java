@@ -4,17 +4,23 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 public class Vacuna extends Producto {
 
 	private int cantidadDeAplicacionesRequeridas;
 
-	public Vacuna(String nombre, BigDecimal precio, int stock, int cantidadDeAplicacionesRequeridas) {
-		super(nombre, precio, stock);
+	public Vacuna(String nombre, BigDecimal precio, int cantidadDeAplicacionesRequeridas,Farmacia farmacia) {
+		super(nombre, precio,farmacia);
 		this.cantidadDeAplicacionesRequeridas = cantidadDeAplicacionesRequeridas;
 	}
+
+	public Vacuna(){
+    }
+
 
 	@Override
 	public boolean equals(Object obj) {

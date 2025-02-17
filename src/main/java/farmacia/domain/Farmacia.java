@@ -6,13 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 public class Farmacia implements Comparable<Farmacia> {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String nombre, localidad, cuil, calle;
 	private Integer nroCalle;
@@ -28,30 +30,6 @@ public class Farmacia implements Comparable<Farmacia> {
 
 	public Farmacia(){
 
-	}
-
-    public void setId(Long id) {
-		this.id = id;
-	}
-
-    public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-    public void setLocalidad(String localidad) {
-		this.localidad = localidad;
-	}
-
-    public void setCuil(String cuil) {
-		this.cuil = cuil;
-	}
-
-    public void setCalle(String calle) {
-		this.calle = calle;
-	}
-
-    public void setNroCalle(Integer nroCalle) {
-		this.nroCalle = nroCalle;
 	}
 
 	@Override

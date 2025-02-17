@@ -21,13 +21,14 @@ public class FarmaciaService {
 	}
 
 	public List<Farmacia> obtenerFarmacias(Orden ordenAlfabetico) {
-		List<Farmacia> farmaciasObtenidas = this.farmaciaRepository.findAll();
-		farmaciasObtenidas.sort(null);
+
+		Assert.isTrue(ordenAlfabetico!=null,"Se ingreso un orden nulo");
+
 		if (ordenAlfabetico == Orden.DECRECIENTE) {
-			Collections.reverse(farmaciasObtenidas);
+			return farmaciaRepository.findAllByOrderByNombreDesc();
 		}
 
-		return farmaciasObtenidas;
+		return farmaciaRepository.findAllByOrderByNombreAsc();
 	}
 
 	public void ingresarFarmacia(Farmacia nuevaFarmacia) {

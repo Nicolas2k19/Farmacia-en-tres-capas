@@ -9,6 +9,7 @@ import farmacia.domain.enums.Orden;
 import farmacia.domain.Producto;
 import farmacia.repository.interfaces.ProductoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class ProductoService {
@@ -22,93 +23,48 @@ public class ProductoService {
 	}
 
 	public List<Producto> obtenerProductos(Orden ordenAlfabetico) {
+		Assert.isTrue(ordenAlfabetico!=null,"Se ingreso un orden nulo.");
 
-		if (ordenAlfabetico == null) {
-			throw new IllegalArgumentException("Se ingreso un orden nulo.");
+		if(ordenAlfabetico == Orden.CRECIENTE){
+			return productoRepository.findAllByOrderByNombreAsc();
 		}
 
-		List<Producto> productos = productoRepository.findAll();
-		productos.sort(null);
+		return productoRepository.findAllByOrderByNombreDesc();
 
-		if (ordenAlfabetico == Orden.DECRECIENTE) {
-			Collections.reverse(productos);
-		}
 
-		return productos;
 	}
 
 	public void ingresarNuevoProducto(Producto nuevoProducto) throws Exception {
-
 		precioValido(nuevoProducto.getPrecio());
 		nombreProductoValido(nuevoProducto.getNombre());
+		this.productoRepository.save(nuevoProducto);
 
-		Producto productoEncontrado = buscarPorProducto(nuevoProducto);
-
-		if (productoEncontrado != null) {
-			productoEncontrado.sumarStock(nuevoProducto.getStock());
-
-		} else {
-			this.productoRepository.save(nuevoProducto);
-		}
 
 	}
 
 	public void venderProducto(Producto nuevoProducto) throws Exception {
-
 		precioValido(nuevoProducto.getPrecio());
 		nombreProductoValido(nuevoProducto.getNombre());
-		Producto productoEncontrado = buscarPorProducto(nuevoProducto);
-
-		if (productoEncontrado == null) {
-			throw new Exception("El producto a vender no existe");
-		}
-
-		if (existeStock(nuevoProducto, productoEncontrado)) {
-			productoEncontrado.quitarStock(nuevoProducto.getStock());
-			return;
-		}
-
-		if(eliminarStock(nuevoProducto, productoEncontrado)) {
-			this.productoRepository.delete(nuevoProducto);
-			
-		} else {
-			throw new Exception("No hay stock");
-		}
-	}
-
-	private boolean eliminarStock(Producto nuevoProducto, Producto productoEncontrado) {
-		return productoEncontrado.getStock() - nuevoProducto.getStock() == 0;
-	}
-
-	private boolean existeStock(Producto nuevoProducto, Producto productoEncontrado) {
-		return productoEncontrado.getStock() - nuevoProducto.getStock() >= 1;
-	};
-
-	private Producto buscarPorProducto(Producto nuevoProducto) {
-		List<Producto> productosFiltrados = this.productoRepository.findAll().stream()
-				.filter(producto -> producto.equals(nuevoProducto)).collect(Collectors.toList());
-
-		if (productosFiltrados.size() == 0) {
-			return null;
-		}
-
-		return productosFiltrados.get(0);
+		int stock = stockPorProducto(nuevoProducto.getNombre());
+		Assert.isTrue(stock > 0,"No hay stock");
+		this.productoRepository.delete(nuevoProducto);
 	}
 
 	private void precioValido(BigDecimal precio){
 		BigDecimal precioCero = new BigDecimal(0);
-
 		boolean esPrecioMenorIgualCero = precio.compareTo(precioCero) == -1 || precio.compareTo(precioCero) == 0;
+		Assert.isTrue(!esPrecioMenorIgualCero , "El precio del producto es menor o igual a 0, precio invalido");
 
-		if (esPrecioMenorIgualCero) {
-			throw new IllegalArgumentException("El precio del producto es menor o igual a 0, precio invalido");
-		}
 	}
 
-	private void nombreProductoValido(String nombreProducto) throws Exception {
-		if (nombreProducto.length() == 0) {
-			throw new Exception("El nombre ingresado es no tiene caracteres");
-		}
+	private void nombreProductoValido(String nombreProducto){
+		Assert.isTrue(!nombreProducto.isEmpty(),"El nombre de producto ingresado no tiene caracteres");
 	}
+
+	public int stockPorProducto(String nombre){
+		return productoRepository.countByNombre(nombre);
+	}
+
+
 
 }

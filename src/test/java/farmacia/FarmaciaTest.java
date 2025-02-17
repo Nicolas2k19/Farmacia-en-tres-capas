@@ -1,5 +1,6 @@
 package farmacia;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -189,6 +190,39 @@ public class FarmaciaTest {
 		Long id = -1l;
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> farmaciaService.eliminarFarmacia(id));
 		assertThat(exception.getMessage()).isEqualTo("El id ingresado es invalido.");
+	}
+
+	@Test
+	public void obtenerFarmacias_conOrdenAsc_retornaListaOrdenadaAsc(){
+		Farmacia nuevaFarmacia = new Farmacia("B FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia nuevaFarmacia2 = new Farmacia("A FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
+		farmaciaService.ingresarFarmacia(nuevaFarmacia);
+		farmaciaService.ingresarFarmacia(nuevaFarmacia2);
+		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
+		List<Farmacia> farmaciasComparacion = asList(nuevaFarmacia2,nuevaFarmacia);
+		assertThat(farmacias).isEqualTo(farmaciasComparacion);
+
+	}
+
+	@Test
+	public void obtenerFarmacias_conOrdenAsc_retornaListaOrdenadaDesc(){
+		Farmacia nuevaFarmacia = new Farmacia("B FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
+		Farmacia nuevaFarmacia2 = new Farmacia("A FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
+		farmaciaService.ingresarFarmacia(nuevaFarmacia);
+		farmaciaService.ingresarFarmacia(nuevaFarmacia2);
+		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.DECRECIENTE);
+		List<Farmacia> farmaciasComparacion = asList(nuevaFarmacia,nuevaFarmacia2);
+		assertThat(farmacias).isEqualTo(farmaciasComparacion);
+
+	}
+
+	@Test
+	public void obtenerFarmacias_conOrdenNull_lanzaIllegalArgumenException(){
+
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() ->farmaciaService.obtenerFarmacias(null));
+
+		assertThat(exception.getMessage()).isEqualTo("Se ingreso un orden nulo");
 	}
 
 }

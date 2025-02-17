@@ -15,10 +15,14 @@ public class Medicamento extends Producto {
 	private TipoMedicamento tipo;
 	private double dosis;
 
-	public Medicamento(String nombre, BigDecimal precio, int stock, TipoMedicamento tipo, double dosis) {
-		super(nombre, precio, stock);
+	public Medicamento(String nombre, BigDecimal precio, TipoMedicamento tipo, double dosis,Farmacia farmacia) {
+		super(nombre, precio,farmacia);
 		this.tipo = tipo;
 		this.dosis = dosis;
+	}
+
+	public Medicamento(){
+
 	}
 
 	@Override
