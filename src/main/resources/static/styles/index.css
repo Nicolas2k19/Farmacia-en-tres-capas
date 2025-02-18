@@ -1,0 +1,53 @@
+
+
+body{
+    background-color: black;
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+h1::after {
+    content: "";
+    border-bottom: 5px solid white;
+    display: flex;
+    animation-name: animacionafter;
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+  }
+  
+  @keyframes animacionafter {
+    0% {
+      width: 0;
+    }
+  
+    100% {
+      width: 100%;
+    }
+  
+  }
+
+  ul{
+    list-style: square;
+    font-size: 1.25rem;
+    width: fit-content;
+    padding: 1rem;
+
+  }
+
+  li{
+    margin-bottom: 1rem;
+  }
+
+
+  .titulo-bienvenida{
+    padding: 1rem;
+  }
+
+  #opciones{
+    padding: 1rem;
+    border: 1px dashed white;
+    border-radius: 1%;
+    width: 90%;
+    margin: auto;   
+  }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import farmacia.domain.Farmacia;
@@ -23,6 +25,11 @@ public class FarmaciaRestController {
 	@GetMapping("api/obtenerFarmacias")
 	public List<Farmacia> obtenerFarmacias(Orden ordenAlfabetico) {
 		return this.farmaciaService.obtenerFarmacias(ordenAlfabetico).stream().toList();
+	}
+
+	@PostMapping("api/ingresarFarmacia")
+	public void obtenerFarmacias(@RequestBody Farmacia farmacia) {
+		this.farmaciaService.ingresarFarmacia(farmacia);
 	}
 	
 	

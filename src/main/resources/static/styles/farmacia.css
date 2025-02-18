@@ -1,4 +1,14 @@
+body{
+    background-color: black;
+}
+
 .seccion-tabla{
     padding: 1rem;
     width: 800px;
+}
+
+form{
+    padding: 1rem;
+    border: 1px dashed white;
+    border-radius: 1%;
 }

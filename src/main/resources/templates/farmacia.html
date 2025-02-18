@@ -11,7 +11,7 @@
         <section class="seccion-tabla">
             <table class="table">    
                 <thead>
-                    <tr class="table-dark table-striped">
+                    <tr class="table-white table-striped">
                         <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Localidad</th>
@@ -28,6 +28,17 @@
                 </tbody>
             </table>
                 
+        </section>
+
+        <section id="ingresar-farmacias">
+            <form method="POST" action="api/ingresarFarmacia">
+                <input type="text" name="nombre" placeholder="Nombre">
+                <input type="text" name="localidad" placeholder="localidad">
+                <input type="text" name="cuil" placeholder="calle">
+                <input type="text" name="nroCalle" placeholder="Altura">
+                <button>Enviar</button>
+            </form>
+
         </section>
         
     </main>

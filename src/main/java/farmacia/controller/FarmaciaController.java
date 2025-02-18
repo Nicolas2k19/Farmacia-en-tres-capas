@@ -17,7 +17,6 @@ public class FarmaciaController {
 	@GetMapping("/farmacias")
 	public String getVistaFarmacia(Model model){
 		model.addAttribute("farmacias", farmaciaService.obtenerFarmacias(Orden.CRECIENTE));
-		System.out.println(model);
 		return "farmacia";
 	}
 	

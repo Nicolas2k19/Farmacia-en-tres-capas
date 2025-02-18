@@ -37,8 +37,7 @@ public class ProductoTest {
 
     @Test
     public void ingresarProducto_conProducto_retornaVoid() throws Exception {
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("0.1");
         Vacuna vacuna = new Vacuna("Vacuna 1",precio,1,nuevaFarmacia);
         this.productoService.ingresarNuevoProducto(vacuna);
@@ -48,8 +47,7 @@ public class ProductoTest {
 
     @Test
     public void ingresarProducto_con2Productos_retornaVoid() throws Exception {
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         System.out.println(farmaciaService.obtenerFarmacias(Orden.CRECIENTE));
         BigDecimal precio = new BigDecimal("0.1");
         Vacuna vacuna = new Vacuna("Vacuna 1",precio,1,nuevaFarmacia);
@@ -62,8 +60,7 @@ public class ProductoTest {
 
     @Test
     public void venderProducto_unProducto_retornaVoid() throws Exception {
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("0.1");
         Vacuna vacuna = new Vacuna("Vacuna 1",precio,1,nuevaFarmacia);
         this.productoService.ingresarNuevoProducto(vacuna);
@@ -75,8 +72,7 @@ public class ProductoTest {
 
     @Test
     public void ingresarNuevoProducto_unProductoNombreSinCaracteres_lanzaIllegaArgumentException(){
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("0.1");
         Vacuna vacuna = new Vacuna("",precio,1,nuevaFarmacia);
         Exception exception = assertThrows(IllegalArgumentException.class,
@@ -86,8 +82,7 @@ public class ProductoTest {
 
     @Test
     public void venderProducto_unProductoNombreSinCaracteres_lanzaIllegaArgumentException(){
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("0.1");
         Vacuna vacuna = new Vacuna("",precio,1,nuevaFarmacia);
         Exception exception = assertThrows(IllegalArgumentException.class,
@@ -97,8 +92,7 @@ public class ProductoTest {
 
     @Test
     public void ingresarNuevoProducto_unProductoConPrecioMenorACero_lanzaIllegaArgumentException(){
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("0");
         Vacuna vacuna = new Vacuna("Vacuna 1",precio,1,nuevaFarmacia);
         Exception exception = assertThrows(IllegalArgumentException.class,
@@ -109,8 +103,7 @@ public class ProductoTest {
 
     @Test
     public void venderProducto_unProductoConPrecioMenorACero_lanzaIllegaArgumentException(){
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("0");
         Vacuna vacuna = new Vacuna("Vacuna 1",precio,1,nuevaFarmacia);
         Exception exception = assertThrows(IllegalArgumentException.class,
@@ -121,8 +114,7 @@ public class ProductoTest {
 
     @Test
     public void obtenerProductos_conOrdenAscdente_retornaListaOrdenadaAsc() throws Exception {
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("1.00");
         Vacuna vacuna = new Vacuna("Vacuna 1",precio,1,nuevaFarmacia);
         Higiene higiene = new Higiene("Shampo",precio, Aroma.COCO,true,nuevaFarmacia);
@@ -136,8 +128,7 @@ public class ProductoTest {
 
     @Test
     public void obtenerProductos_conOrdenDesc_retornaListaOrdenadaDesc() throws Exception {
-        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        Farmacia nuevaFarmacia = crearFarmacia();
         BigDecimal precio = new BigDecimal("1.00");
         Vacuna vacuna = new Vacuna("Vacuna 1",precio,1,nuevaFarmacia);
         Higiene higiene = new Higiene("Shampo",precio, Aroma.COCO,true,nuevaFarmacia);
@@ -146,5 +137,11 @@ public class ProductoTest {
         List<Producto> productos = productoService.obtenerProductos(Orden.DECRECIENTE);
         List<Producto> ordenEsperado =asList(vacuna,higiene);
         assertThat(productos).isEqualTo(ordenEsperado);
+    }
+
+    private Farmacia crearFarmacia() {
+        Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
+        farmaciaService.ingresarFarmacia(nuevaFarmacia);
+        return nuevaFarmacia;
     }
 }
