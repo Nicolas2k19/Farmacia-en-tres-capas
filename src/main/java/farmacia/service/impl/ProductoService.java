@@ -17,7 +17,6 @@ public class ProductoService {
 
 	private ProductoRepository productoRepository;
 
-
 	public ProductoService(ProductoRepository productoRepository) {
 		this.productoRepository = productoRepository;
 	}
@@ -30,19 +29,15 @@ public class ProductoService {
 		}
 
 		return productoRepository.findAllByOrderByNombreDesc();
-
-
 	}
 
-	public void ingresarNuevoProducto(Producto nuevoProducto) throws Exception {
+	public void ingresar(Producto nuevoProducto) throws Exception {
 		precioValido(nuevoProducto.getPrecio());
 		nombreProductoValido(nuevoProducto.getNombre());
 		this.productoRepository.save(nuevoProducto);
-
-
 	}
 
-	public void venderProducto(Producto nuevoProducto) throws Exception {
+	public void vender(Producto nuevoProducto) throws Exception {
 		precioValido(nuevoProducto.getPrecio());
 		nombreProductoValido(nuevoProducto.getNombre());
 		int stock = stockPorProducto(nuevoProducto.getNombre());
@@ -54,7 +49,6 @@ public class ProductoService {
 		BigDecimal precioCero = new BigDecimal(0);
 		boolean esPrecioMenorIgualCero = precio.compareTo(precioCero) == -1 || precio.compareTo(precioCero) == 0;
 		Assert.isTrue(!esPrecioMenorIgualCero , "El precio del producto es menor o igual a 0, precio invalido");
-
 	}
 
 	private void nombreProductoValido(String nombreProducto){

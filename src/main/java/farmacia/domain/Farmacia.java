@@ -1,10 +1,8 @@
 package farmacia.domain;
 
 import java.util.Objects;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,19 +12,11 @@ import lombok.Setter;
 public class Farmacia implements Comparable<Farmacia> {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nombre, localidad, cuil, calle;
+	@Column(name="nrocalle")
 	private Integer nroCalle;
-	
-	public Farmacia(String nombre, String localidad, String cuil, String calle, Integer nroCalle) {
-		super();
-		this.nombre = nombre;
-		this.localidad = localidad;
-		this.cuil = cuil;
-		this.calle = calle;
-		this.nroCalle = nroCalle;
-	}
 
 	public Farmacia(){
 

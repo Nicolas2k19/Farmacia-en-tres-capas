@@ -31,14 +31,14 @@ public class FarmaciaService {
 		return farmaciaRepository.findAllByOrderByNombreAsc();
 	}
 
-	public void ingresarFarmacia(Farmacia nuevaFarmacia) {
+	public void ingresar(Farmacia nuevaFarmacia) {
 		verificarFarmacia(nuevaFarmacia);
 		this.farmaciaRepository.save(nuevaFarmacia);
 		
 	}
 
 	
-	public void modificarFarmacia(Farmacia nuevaFarmacia) {
+	public void modificar(Farmacia nuevaFarmacia) {
 		verificarFarmacia(nuevaFarmacia);
 		this.farmaciaRepository.save(nuevaFarmacia);
 		

@@ -29,7 +29,7 @@ public class FarmaciaRestController {
 
 	@PostMapping("api/ingresarFarmacia")
 	public void obtenerFarmacias(@RequestBody Farmacia farmacia) {
-		this.farmaciaService.ingresarFarmacia(farmacia);
+		this.farmaciaService.ingresar(farmacia);
 	}
 	
 	

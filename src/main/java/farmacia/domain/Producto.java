@@ -5,26 +5,21 @@ import java.math.BigDecimal;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.engine.internal.Cascade;
 
 @Getter
 @Setter
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Producto implements Comparable<Producto> {
-	
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nombre;
-	private BigDecimal precio;
 	@ManyToOne
 	private Farmacia farmacia;
+	private String nombre;
+	private BigDecimal precio;
 
-	public Producto(String nombre, BigDecimal precio,Farmacia farmacia) {
-		this.nombre = nombre;
-		this.precio = precio;
-		this.farmacia = farmacia;
-	}
 
 	public Producto(){
 

@@ -15,13 +15,6 @@ public class Higiene extends Producto {
 	private Aroma aroma;
 	private boolean hipoalergenico;
 
-	public Higiene(String nombre, BigDecimal precio, Aroma aroma, boolean hipoalergenico,Farmacia farmacia) {
-
-		super(nombre, precio,farmacia);
-		this.aroma = aroma;
-		this.hipoalergenico = hipoalergenico;
-	}
-
 	public Higiene(){
 
 	}

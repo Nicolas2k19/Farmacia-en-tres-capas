@@ -23,11 +23,11 @@ public class ProductoRestController {
 
 	@PostMapping("api/getProductos/ingresarProducto")
 	public void ingresarNuevoProducto(@RequestBody Producto nuevoProducto) throws Exception {
-		productoService.ingresarNuevoProducto(nuevoProducto);
+		productoService.ingresar(nuevoProducto);
 	}
 
 	@DeleteMapping("api/getProductos/venderProducto")
 	public void venderProducto(@RequestBody Producto productoAVender) throws Exception {
-		productoService.venderProducto(productoAVender);
+		productoService.vender(productoAVender);
 	}
 }

@@ -3,27 +3,26 @@ package farmacia;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
+import farmacia.repository.interfaces.FarmaciaRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.TestPropertySource;
 import farmacia.domain.Farmacia;
 import farmacia.domain.enums.Orden;
 import farmacia.service.impl.FarmaciaService;
+import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest
-@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
-@TestPropertySource(properties={"spring.jpa.hibernate.ddl-auto=create"})
-@AutoConfigureTestDatabase(replace = Replace.ANY)
+@Sql(scripts = "../schemas.sql",
+		executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Transactional
 public class FarmaciaTest {
 	@Autowired
 	private FarmaciaService farmaciaService;
+	@Autowired
+	private FarmaciaRepository farmaciaRepository;
 
 	@Test
 	public void obtenerFarmacias_ConOrdenCreciente_retornaListaFarmacias() {
@@ -33,156 +32,147 @@ public class FarmaciaTest {
 	}
 
 	@Test
-	public void ingresarFarmacia_conObjetoFarmacia_retornaVoid() {
-		Farmacia nuevaFarmacia = new Farmacia( "NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-		farmaciaService.ingresarFarmacia(nuevaFarmacia);
+	public void ingresar_conObjetoFarmacia_retornaVoid() {
+		Farmacia nuevaFarmacia = crearFarmacia();
+		farmaciaService.ingresar(nuevaFarmacia);
 		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
-
 		assertThat(farmacias.contains(nuevaFarmacia)).isTrue();
 	}
 
 	@Test
 	public void modificarFarmacia_conFarmaciaModificada_retornaVoid() {
-		Farmacia farmaciaAModificar = new Farmacia( "NUEVA FARMACIA 1", "San miguel", "2042370424", "Zuviria", 2168);
-		Farmacia copiaFarmacia = new Farmacia( "NUEVA FARMACIA 1", "San miguel", "2042370424", "Zuviria", 2168);
-		farmaciaService.ingresarFarmacia(farmaciaAModificar);
+		Farmacia farmaciaAModificar = crearFarmacia();
+		Farmacia copiaFarmacia = crearFarmacia();
+		farmaciaRepository.save(farmaciaAModificar);
 		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
 
 		assertThat(farmacias.contains(copiaFarmacia)).isTrue();
 
 		farmaciaAModificar.setNombre("Nombre modificado");
-		farmaciaService.modificarFarmacia(farmaciaAModificar);
+		farmaciaService.modificar(farmaciaAModificar);
 
-		farmacias = farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
-
+		farmacias = farmaciaRepository.findAll();
 		assertThat(farmacias.contains(copiaFarmacia)).isFalse();
 		assertThat(farmacias.contains(farmaciaAModificar)).isTrue();
-
 	}
 
 	@Test
-	public void ingresarFarmacia_conFarmaciaNombreNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia( null, "San miguel", "2042370424", "Zuviria", 2168);
-
+	public void ingresar_conFarmaciaNombreNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setNombre(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.ingresar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("El nombre de la farmacia es vacio.");
-
 	}
 
 	@Test
-	public void ingresarFarmacia_conFarmaciaLocalidadNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", null, "2042370424", "Zuviria", 2168);
-
+	public void ingresar_conFarmaciaLocalidadNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setLocalidad(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.ingresar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("La localidad ingresada es vacia.");
-
 	}
 
 	@Test
-	public void ingresarFarmacia_conFarmaciaCuilNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", null, "Zuviria", 2168);
+	public void ingresar_conFarmaciaCuilNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setCuil(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.ingresar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("El cuil ingresado es vacio.");
-
 	}
 
 	@Test
-	public void ingresarFarmacia_conFarmaciaCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", "2042370424", null, 2168);
+	public void ingresar_conFarmaciaCalleNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setCalle(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.ingresar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("La calle ingresada es vacia.");
-
 	}
 
 	@Test
-	public void ingresarFarmacia_conFarmaciaNroCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", "2042370424", "Zuviria", null);
+	public void ingresar_conFarmaciaNroCalleNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setNroCalle(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.ingresarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.ingresar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("La altura de la farmacia es vacia.");
-
 	}
 
 	@Test
-	public void modificarFarmacia_conFarmaciaNombreNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia( null, "San miguel", "2042370424", "Zuviria", 2168);
+	public void modificar_conFarmaciaNombreNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setNombre(null);
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.modificar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("El nombre de la farmacia es vacio.");
-
 	}
 
 	@Test
-	public void modificarFarmacia_conFarmaciaLocalidadNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia("Farmacia", null, "2042370424", "Zuviria", 2168);
+	public void modificar_conFarmaciaLocalidadNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setLocalidad(null);
 
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.modificar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("La localidad ingresada es vacia.");
-
 	}
 
 	@Test
-	public void modificarFarmacia_conFarmaciaCuilNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia( "Farmacia", "San miguel", null, "Zuviria", 2168);
+	public void modificar_conFarmaciaCuilNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setCuil(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.modificar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("El cuil ingresado es vacio.");
-
 	}
 
 	@Test
-	public void modificarFarmacia_conFarmaciaCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia("Farmacia", "San miguel", "2042370424", null, 2168);
+	public void modificar_conFarmaciaCalleNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setCalle(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.modificar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("La calle ingresada es vacia.");
-
 	}
 
 	@Test
-	public void modificarFarmacia_conFarmaciaNroCalleNull_lanzaIllegalArgumentException() {
-		Farmacia farmaciaAModificar = new Farmacia("Farmacia", "San miguel", "2042370424", "Zuviria", null);
+	public void modificar_conFarmaciaNroCalleNull_lanzaIllegalArgumentException() {
+		Farmacia farmaciaAModificar = crearFarmacia();
+		farmaciaAModificar.setNroCalle(null);
 		Exception exception = assertThrows(IllegalArgumentException.class,
-				() -> farmaciaService.modificarFarmacia(farmaciaAModificar));
+				() -> farmaciaService.modificar(farmaciaAModificar));
 
 		assertThat(exception.getMessage()).isEqualTo("La altura de la farmacia es vacia.");
-
 	}
 
 	@Test
 	public void eliminarFarmacia_conIdFarmaciaNull_lanzaIllegalArgumentException() {
 		Long id = null;
-
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> farmaciaService.eliminarFarmacia(id));
-
 		assertThat(exception.getMessage()).isEqualTo("El id ingresado es vacio.");
-
 	}
 
 	@Test
 	public void eliminarFarmacia_conIdFarmaciaExistente_retornaVoid() {
-		Long id = 1l;
-		Farmacia nuevaFarmacia = new Farmacia("NUEVA FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-		farmaciaService.ingresarFarmacia(nuevaFarmacia);
-		farmaciaService.eliminarFarmacia(id);
-				
-		farmaciaService.obtenerFarmacias(Orden.CRECIENTE).stream()
-				.forEach(farmacia -> assertNotEquals(farmacia.getId(), id));
+		Farmacia farmaciaAEliminar = farmaciaRepository.findAll().get(0);
+		farmaciaService.eliminarFarmacia(farmaciaAEliminar.getId());
+		farmaciaRepository
+				.findAll()
+				.stream()
+				.forEach(farmacia -> assertNotEquals(farmacia.getId(), farmaciaAEliminar.getId()));
 	}
 
 	@Test
@@ -194,26 +184,26 @@ public class FarmaciaTest {
 
 	@Test
 	public void obtenerFarmacias_conOrdenAsc_retornaListaOrdenadaAsc(){
-		Farmacia nuevaFarmacia = new Farmacia("B FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-		Farmacia nuevaFarmacia2 = new Farmacia("A FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-		farmaciaService.ingresarFarmacia(nuevaFarmacia);
-		farmaciaService.ingresarFarmacia(nuevaFarmacia2);
+		farmaciaRepository.deleteAll();
+		Farmacia nuevaFarmacia = crearFarmaciaTestListaOrdenadaConLetraB();
+		Farmacia nuevaFarmacia2 = crearFarmaciaTestListaOrdenadaConLetraA();
+		farmaciaRepository.save(nuevaFarmacia);
+		farmaciaRepository.save(nuevaFarmacia2);
 		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
 		List<Farmacia> farmaciasComparacion = asList(nuevaFarmacia2,nuevaFarmacia);
 		assertThat(farmacias).isEqualTo(farmaciasComparacion);
-
 	}
 
 	@Test
 	public void obtenerFarmacias_conOrdenAsc_retornaListaOrdenadaDesc(){
-		Farmacia nuevaFarmacia = new Farmacia("B FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-		Farmacia nuevaFarmacia2 = new Farmacia("A FARMACIA", "San miguel", "2042370424", "Zuviria", 2168);
-		farmaciaService.ingresarFarmacia(nuevaFarmacia);
-		farmaciaService.ingresarFarmacia(nuevaFarmacia2);
+		farmaciaRepository.deleteAll();
+		Farmacia nuevaFarmacia = crearFarmaciaTestListaOrdenadaConLetraB();
+		Farmacia nuevaFarmacia2 = crearFarmaciaTestListaOrdenadaConLetraA();
+		farmaciaRepository.save(nuevaFarmacia);
+		farmaciaRepository.save(nuevaFarmacia2);
 		List<Farmacia> farmacias = farmaciaService.obtenerFarmacias(Orden.DECRECIENTE);
 		List<Farmacia> farmaciasComparacion = asList(nuevaFarmacia,nuevaFarmacia2);
 		assertThat(farmacias).isEqualTo(farmaciasComparacion);
-
 	}
 
 	@Test
@@ -223,6 +213,36 @@ public class FarmaciaTest {
 				() ->farmaciaService.obtenerFarmacias(null));
 
 		assertThat(exception.getMessage()).isEqualTo("Se ingreso un orden nulo");
+	}
+
+	private Farmacia crearFarmacia(){
+		Farmacia nuevaFarmacia = new Farmacia();
+		nuevaFarmacia.setNombre("NUEVA FARMACIA");
+		nuevaFarmacia.setLocalidad("San miguel");
+		nuevaFarmacia.setCuil("2042370424");
+		nuevaFarmacia.setCalle("Zuviria");
+		nuevaFarmacia.setNroCalle(2168);
+		return nuevaFarmacia;
+	}
+
+	private Farmacia crearFarmaciaTestListaOrdenadaConLetraA(){
+		Farmacia nuevaFarmacia = new Farmacia();
+		nuevaFarmacia.setNombre("A FARMACIA");
+		nuevaFarmacia.setLocalidad("San miguel");
+		nuevaFarmacia.setCuil("2042370424");
+		nuevaFarmacia.setCalle("Zuviria");
+		nuevaFarmacia.setNroCalle(2168);
+		return nuevaFarmacia;
+	}
+
+	private Farmacia crearFarmaciaTestListaOrdenadaConLetraB(){
+		Farmacia nuevaFarmacia = new Farmacia();
+		nuevaFarmacia.setNombre("B FARMACIA");
+		nuevaFarmacia.setLocalidad("San miguel");
+		nuevaFarmacia.setCuil("2042370424");
+		nuevaFarmacia.setCalle("Zuviria");
+		nuevaFarmacia.setNroCalle(2168);
+		return nuevaFarmacia;
 	}
 
 }

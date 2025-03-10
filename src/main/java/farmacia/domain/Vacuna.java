@@ -3,6 +3,8 @@ package farmacia.domain;
 import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,14 +15,8 @@ public class Vacuna extends Producto {
 
 	private int cantidadDeAplicacionesRequeridas;
 
-	public Vacuna(String nombre, BigDecimal precio, int cantidadDeAplicacionesRequeridas,Farmacia farmacia) {
-		super(nombre, precio,farmacia);
-		this.cantidadDeAplicacionesRequeridas = cantidadDeAplicacionesRequeridas;
-	}
-
 	public Vacuna(){
     }
-
 
 	@Override
 	public boolean equals(Object obj) {
