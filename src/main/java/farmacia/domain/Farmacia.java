@@ -4,30 +4,30 @@ import java.util.Objects;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Farmacia implements Comparable<Farmacia> {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nombre, localidad, cuil, calle;
-	@Column(name="nrocalle")
+	private String nombre;
+	private String localidad;
+	private String cuil;
+	private String calle;
+	@Column(name="nro_calle")
 	private Integer nroCalle;
-
-	public Farmacia(){
-
-	}
 
 	@Override
 	public String toString() {
 		return "Farmacia [id=" + id + ", nombre=" + nombre + ", localidad=" + localidad + ", cuil=" + cuil + ", calle="
 				+ calle + ", nroCalle=" + nroCalle+"]";
 	}
-	
 
 	@Override
 	public boolean equals(Object obj) {

@@ -1,14 +1,15 @@
 package farmacia.domain;
 
 import java.math.BigDecimal;
-
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Producto implements Comparable<Producto> {
 
@@ -19,11 +20,6 @@ public abstract class Producto implements Comparable<Producto> {
 	private Farmacia farmacia;
 	private String nombre;
 	private BigDecimal precio;
-
-
-	public Producto(){
-
-	}
 
 	@Override
 	public boolean equals(Object obj) {

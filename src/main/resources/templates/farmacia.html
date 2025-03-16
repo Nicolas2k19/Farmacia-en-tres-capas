@@ -5,42 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmacias</title>
 </head>
-<body>
-    <main>
-
-        <section class="seccion-tabla">
-            <table class="table">    
+<body class="bg-dark">
+    <nav></nav>
+    <main class="row">
+        <h1>Ingreso de farmacias</h1>
+        <section class="col" id="ingresar-farmacias">
+            <form class="rounded" method="POST" action="api/ingresarFarmacia">
+                <input class="" type="text" name="nombre" placeholder="Nombre" required>
+                <input class="" type="text" name="localidad" placeholder="localidad" required>
+                <input class="" type="text" name="cuil" placeholder="calle" required>
+                <input class="" type="text" name="nroCalle" placeholder="Altura" required>
+                <button type="submit" class="btn btn-light">Enviar</button>
+            </form>
+        </section>
+        <section class="seccion-tabla col">
+            <table class="table table-dark table-striped table-hover">
                 <thead>
-                    <tr class="table-white table-striped">
-                        <th scope="col">Id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Localidad</th>
-                    </tr>     
+                <tr class="table-white table-striped">
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Localidad</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="farmacia : ${farmacias}">
-                        <th  th:text="${farmacia.id}" scope="row"></th>
-                        <td  th:text="${farmacia.nombre}">
-                        </td>
-                        <td  th:text="${farmacia.localidad}">
-                        </td>
-                    </tr>
+                <tr th:each="farmacia : ${farmacias}">
+                    <th  th:text="${farmacia.id}" scope="row"></th>
+                    <td  th:text="${farmacia.nombre}">
+                    </td>
+                    <td  th:text="${farmacia.localidad}">
+                    </td>
+                </tr>
                 </tbody>
             </table>
-                
         </section>
 
-        <section id="ingresar-farmacias">
-            <form method="POST" action="api/ingresarFarmacia">
-                <input type="text" name="nombre" placeholder="Nombre">
-                <input type="text" name="localidad" placeholder="localidad">
-                <input type="text" name="cuil" placeholder="calle">
-                <input type="text" name="nroCalle" placeholder="Altura">
-                <button>Enviar</button>
-            </form>
 
-        </section>
-        
     </main>
 
 

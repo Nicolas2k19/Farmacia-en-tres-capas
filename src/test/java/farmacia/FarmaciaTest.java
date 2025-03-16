@@ -12,11 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import farmacia.domain.Farmacia;
 import farmacia.domain.enums.Orden;
 import farmacia.service.impl.FarmaciaService;
-import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest
-@Sql(scripts = "../schemas.sql",
-		executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Transactional
 public class FarmaciaTest {
 	@Autowired

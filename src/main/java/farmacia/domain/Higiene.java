@@ -1,23 +1,21 @@
 package farmacia.domain;
 
-import java.math.BigDecimal;
-
 import farmacia.domain.enums.Aroma;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
+@PrimaryKeyJoinColumn(name = "producto_id")
 public class Higiene extends Producto {
 
 	private Aroma aroma;
 	private boolean hipoalergenico;
-
-	public Higiene(){
-
-	}
 
 	@Override
 	public boolean equals(Object obj) {

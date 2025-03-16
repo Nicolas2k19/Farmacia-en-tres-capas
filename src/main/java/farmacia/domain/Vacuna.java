@@ -2,21 +2,20 @@ package farmacia.domain;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@PrimaryKeyJoinColumn(name = "producto_id")
 public class Vacuna extends Producto {
 
+	@Column(name = "cant_aplicaciones")
 	private int cantidadDeAplicacionesRequeridas;
-
-	public Vacuna(){
-    }
 
 	@Override
 	public boolean equals(Object obj) {
