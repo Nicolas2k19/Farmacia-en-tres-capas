@@ -6,19 +6,32 @@
     <title>Farmacias</title>
 </head>
 <body class="bg-dark">
-    <nav></nav>
+    <nav class="navbar-nav border-bottom border-white">
+        <ul class="nav me-auto mb-2 mb-m-0">
+            <li class="nav-item text-white">
+                <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+            </li>
+            <li class="nav-item text-white">
+                <a class="nav-link active" aria-current="page" href="farmacias">Farmacias</a>
+            </li>
+            <li class="nav-item text-white">
+                <a class="nav-link active" aria-current="page" href="productos">Productos</a>
+            </li>
+        <ul/>
+    </nav>
     <main class="row">
-        <h1>Ingreso de farmacias</h1>
-        <section class="col" id="ingresar-farmacias">
-            <form class="rounded" method="POST" action="api/ingresarFarmacia">
-                <input class="" type="text" name="nombre" placeholder="Nombre" required>
-                <input class="" type="text" name="localidad" placeholder="localidad" required>
-                <input class="" type="text" name="cuil" placeholder="calle" required>
-                <input class="" type="text" name="nroCalle" placeholder="Altura" required>
-                <button type="submit" class="btn btn-light">Enviar</button>
+        <h1 class="mt-2 ms-2 text-white">Ingreso de farmacias</h1>
+        <section class="col p-4" id="ingresar-farmacias">
+            <form class="card bg-dark flex-column p-4 gap-4 border border-white needs-validation" method="POST" action="api/ingresarFarmacia"  enctype="multipart/form-data" novalidate >
+                <input id="validationCustom01" class="form-control w-50" type="text" name="nombre" placeholder="Nombre" required>
+                <input id="validationCustom02" class="form-control w-50" type="text" name="localidad" placeholder="Localidad" required>
+                <input id="validationCustom03" class="form-control w-50" type="text" name="cuil" placeholder="Cuil" required>
+                <input id="validationCustom04"class="form-control  w-50" type="text" name="calle" placeholder="Calle" required>
+                <input id="validationCustom05" class="form-control w-50" type="text" name="nroCalle" placeholder="Altura" required>
+                <button type="submit" class="btn btn-light w-25">Enviar</button>
             </form>
         </section>
-        <section class="seccion-tabla col">
+        <section class="w-75 col">
             <table class="table table-dark table-striped table-hover">
                 <thead>
                 <tr class="table-white table-striped">
@@ -34,6 +47,12 @@
                     </td>
                     <td  th:text="${farmacia.localidad}">
                     </td>
+                    <td>
+                        <button class="btn h-25 m-auto btn-danger" th:onclick="|eliminarFarmacia(${farmacia.id})|">
+                            Del
+                        </button>
+                    </td>
+
                 </tr>
                 </tbody>
             </table>

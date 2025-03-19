@@ -12,8 +12,7 @@ public class FarmaciaController {
 	
 	@Autowired
 	private FarmaciaService farmaciaService;
-	
-	
+
 	@GetMapping("/farmacias")
 	public String getVistaFarmacia(Model model){
 		model.addAttribute("farmacias", farmaciaService.obtenerFarmacias(Orden.CRECIENTE));

@@ -3,10 +3,7 @@ package farmacia.controller.rest;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import farmacia.domain.Farmacia;
 import farmacia.domain.enums.Orden;
@@ -28,10 +25,12 @@ public class FarmaciaRestController {
 	}
 
 	@PostMapping("api/ingresarFarmacia")
-	public void obtenerFarmacias(@RequestBody Farmacia farmacia) {
+	public void obtenerFarmacias(@ModelAttribute Farmacia farmacia) {
 		this.farmaciaService.ingresar(farmacia);
 	}
-	
-	
-	
+
+	@DeleteMapping("api/eliminarFarmacia/{id}")
+	public void eliminarFarmacia(@PathVariable Long id){
+		this.farmaciaService.eliminarFarmacia(id);
+	}
 }

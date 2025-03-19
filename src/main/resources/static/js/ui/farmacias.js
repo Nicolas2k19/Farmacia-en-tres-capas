@@ -1,26 +1,34 @@
-
-const  $dom = Document;
-let lista = $dom.querySelectorAll("#farmacias");
+import {eliminar} from "../../Controlador/farmaciaControlador.js"
 
 
- const  cargarFarmacias = async ()=>{
-
-     await fetch("http://localhost:8080/obtenerFarmacias",(data)=>data)
-     .then(response => response.json())
-     .then(data => {crearElementoLista(data.nombre)})
-
-
+async function eliminarFarmacia(id){
+    await eliminar(id)
+    location.reload()
 }
 
-const crearElementoLista = (texto)=>{
-    let itemLista =  document.createElement('li.farmacia');
-    itemLista.innerText(texto);
-    lista.appendChild(itemLista);
-}
- 
+
+const anularComportamientoDefault = (() => {
+  'use strict'
+
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})
+
+
+anularComportamientoDefault();
 
 
 
-window.onload((cargarFarmacias))
+window.eliminarFarmacia = eliminarFarmacia;
+
 
 
