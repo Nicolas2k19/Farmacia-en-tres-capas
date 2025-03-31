@@ -19,4 +19,4 @@ RUN ./mvnw package -DskipTests
 EXPOSE 8080
 
 # Define el comando por defecto para ejecutar la aplicación
-CMD ["java", "-jar", "target/app-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
