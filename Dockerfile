@@ -1,25 +1,22 @@
 FROM eclipse-temurin:17-jdk AS build
 
+# Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copiar el archivo pom.xml y descargar las dependencias
+# Copia el archivo pom.xml al directorio de trabajo
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
 
-# Copiar el resto del código fuente y construir el JAR
-COPY src ./src
-RUN mvn package -DskipTests
+# Copia todo el contenido del directorio actual al directorio de trabajo
+COPY . .
 
-# Segunda etapa: imagen final
-FROM eclipse-temurin:17-jre
+# Da permisos de ejecución al script mvnw
+RUN chmod +x mvnw
 
-WORKDIR /app
+# Empaqueta la aplicación utilizando Maven
+RUN ./mvnw package -DskipTests
 
-# Copiar el JAR generado desde la etapa anterior
-COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
-
-# Exponer el puerto en el que se ejecutará la aplicación
+# Expone el puerto 8080
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Define el comando por defecto para ejecutar la aplicación
+CMD ["java", "-jar", "target/app-0.0.1-SNAPSHOT.jar"]
