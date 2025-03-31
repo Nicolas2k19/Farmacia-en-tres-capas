@@ -1,5 +1,8 @@
 package farmacia.controller.rest;
 
+import farmacia.domain.Higiene;
+import farmacia.domain.Medicamento;
+import farmacia.domain.Vacuna;
 import farmacia.domain.enums.Orden;
 import farmacia.domain.Producto;
 import farmacia.service.impl.ProductoService;
@@ -21,12 +24,22 @@ public class ProductoRestController {
 		return this.productoService.obtenerProductos(ordenAlfabetico);
 	};
 
-	@PostMapping("api/getProductos/ingresarProducto")
-	public void ingresarNuevoProducto(@RequestBody Producto nuevoProducto) throws Exception {
-		productoService.ingresar(nuevoProducto);
+	@PostMapping("api/ingresarMedicamento")
+	public void ingresarMedicina(@ModelAttribute Medicamento medicamento) throws Exception {
+		productoService.ingresar(medicamento);
 	}
 
-	@DeleteMapping("api/getProductos/venderProducto")
+	@PostMapping("api/ingresarVacuna")
+	public void ingresarVacuna(@ModelAttribute Vacuna vacuna) throws Exception {
+		productoService.ingresar(vacuna);
+	}
+
+	@PostMapping("api/ingresarHigiene")
+	public void ingresarHigiene(@ModelAttribute Higiene higiene) throws Exception {
+		productoService.ingresar(higiene);
+	}
+
+	@DeleteMapping("api/venderProducto")
 	public void venderProducto(@RequestBody Producto productoAVender) throws Exception {
 		productoService.vender(productoAVender);
 	}

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import farmacia.domain.enums.Orden;
 import farmacia.service.impl.FarmaciaService;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class FarmaciaController {
@@ -18,5 +19,12 @@ public class FarmaciaController {
 		model.addAttribute("farmacias", farmaciaService.obtenerFarmacias(Orden.CRECIENTE));
 		return "farmacia";
 	}
+
+	@GetMapping("/infoFarmacia/{id}")
+	public String getVistaInformacionFarmacia(@PathVariable Long id, Model model){
+		model.addAttribute("farmaciaUnica", farmaciaService.obtenerPorId(id));
+		return "informacionFarmacia";
+	}
+
 	
 }

@@ -27,7 +27,6 @@ const anularComportamientoDefault = (() => {
 anularComportamientoDefault();
 
 
-
 window.eliminarFarmacia = eliminarFarmacia;
 
 

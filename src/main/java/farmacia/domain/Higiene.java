@@ -2,6 +2,8 @@ package farmacia.domain;
 
 import farmacia.domain.enums.Aroma;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,10 @@ import lombok.Setter;
 @Getter
 @Entity
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "producto_id")
+@PrimaryKeyJoinColumn(name = "id")
 public class Higiene extends Producto {
 
+	@Enumerated(EnumType.STRING)
 	private Aroma aroma;
 	private boolean hipoalergenico;
 
@@ -22,7 +25,6 @@ public class Higiene extends Producto {
 		if (obj == null) {
 			return false;
 		}
-	
 		return super.equals(obj) && this.aroma.equals(((Higiene) obj).getAroma())
 				&& this.hipoalergenico == (((Higiene) obj).isHipoalergenico());
 	}

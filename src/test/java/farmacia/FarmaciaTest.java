@@ -22,6 +22,26 @@ public class FarmaciaTest {
 	private FarmaciaRepository farmaciaRepository;
 
 	@Test
+	public void obtenerPorId_existeFarmacia_retornaFarmacia(){
+		Farmacia farmaciaObtenida = this.farmaciaService.obtenerPorId(1l);
+		assertThat(farmaciaObtenida).isInstanceOf(Farmacia.class);
+	}
+
+	@Test
+	public void obtenerPorId_noExisteFarmacia_lanzaIllegalArgument(){
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> this.farmaciaService.obtenerPorId(-1l));
+		assertThat(exception.getMessage()).isEqualTo("La farmacia es inexistente");
+	}
+
+	@Test
+	public void obtenerPorId_idNull_lanzaIllegalArgument(){
+		Exception exception = assertThrows(IllegalArgumentException.class,
+				() -> this.farmaciaService.obtenerPorId(null));
+		assertThat(exception.getMessage()).isEqualTo("El id es nulo");
+	}
+
+	@Test
 	public void obtenerFarmacias_ConOrdenCreciente_retornaListaFarmacias() {
 		List<Farmacia> farmacias = this.farmaciaService.obtenerFarmacias(Orden.CRECIENTE);
 		farmacias.stream().forEach(farmacia -> assertTrue(farmacia instanceof Farmacia,

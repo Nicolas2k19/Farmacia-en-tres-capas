@@ -20,6 +20,17 @@ public class FarmaciaService {
 		this.farmaciaRepository = farmaciaRepository;
 	}
 
+	public Farmacia obtenerPorId(Long id){
+
+		Assert.notNull(id,"El id es nulo");
+
+		Optional<Farmacia>  farmacia = this.farmaciaRepository.findById(id);
+
+		Assert.isTrue(farmacia.isPresent(),"La farmacia es inexistente");
+
+		return this.farmaciaRepository.findById(id).get();
+	}
+
 	public List<Farmacia> obtenerFarmacias(Orden ordenAlfabetico) {
 
 		Assert.isTrue(ordenAlfabetico!=null,"Se ingreso un orden nulo");

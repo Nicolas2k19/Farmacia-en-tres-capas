@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "producto_id")
+@PrimaryKeyJoinColumn(name = "id")
 public class Vacuna extends Producto {
 
 	@Column(name = "cant_aplicaciones")
@@ -30,6 +30,4 @@ public class Vacuna extends Producto {
 	public String toString() {
 		return super.toString() + " Cantidad de aplicaciones requeridas = " + cantidadDeAplicacionesRequeridas;
 	}
-
-
 }

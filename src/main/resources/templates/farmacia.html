@@ -17,27 +17,19 @@
             <li class="nav-item text-white">
                 <a class="nav-link active" aria-current="page" href="productos">Productos</a>
             </li>
-        <ul/>
+        </ul>
     </nav>
-    <main class="row">
-        <h1 class="mt-2 ms-2 text-white">Ingreso de farmacias</h1>
-        <section class="col p-4" id="ingresar-farmacias">
-            <form class="card bg-dark flex-column p-4 gap-4 border border-white needs-validation" method="POST" action="api/ingresarFarmacia"  enctype="multipart/form-data" novalidate >
-                <input id="validationCustom01" class="form-control w-50" type="text" name="nombre" placeholder="Nombre" required>
-                <input id="validationCustom02" class="form-control w-50" type="text" name="localidad" placeholder="Localidad" required>
-                <input id="validationCustom03" class="form-control w-50" type="text" name="cuil" placeholder="Cuil" required>
-                <input id="validationCustom04"class="form-control  w-50" type="text" name="calle" placeholder="Calle" required>
-                <input id="validationCustom05" class="form-control w-50" type="text" name="nroCalle" placeholder="Altura" required>
-                <button type="submit" class="btn btn-light w-25">Enviar</button>
-            </form>
-        </section>
-        <section class="w-75 col">
+    <main class="p-4">
+        <section class="w-75 m-auto">
+            <h2 class="text-white">Farmacias</h2>
             <table class="table table-dark table-striped table-hover">
                 <thead>
                 <tr class="table-white table-striped">
                     <th scope="col">Id</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Localidad</th>
+                    <th scope="col">Eliminar</th>
+                    <th scope="col">Mas informacion</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,16 +44,30 @@
                             Del
                         </button>
                     </td>
+                    <td>
+                        <form METHOD="GET" th:action="|/infoFarmacia/${farmacia.id}|">
+                            <button class="btn h-25 m-auto btn-success" >
+                            Info
+                            </button>
+                        </form>
+                    </td>
 
                 </tr>
                 </tbody>
             </table>
         </section>
-
-
+        <section id="ingresar-farmacias" class="w-75 m-auto">
+            <h2 class="mt-2 ms-2 text-white">Ingreso de farmacias</h2>
+            <form class="card bg-dark flex-column p-4 gap-4 border border-white needs-validation" method="POST" action="api/ingresarFarmacia"  enctype="multipart/form-data" novalidate >
+                <input id="validationCustom01" class="form-control w-50" type="text" name="nombre" placeholder="Nombre" required>
+                <input id="validationCustom02" class="form-control w-50" type="text" name="localidad" placeholder="Localidad" required>
+                <input id="validationCustom03" class="form-control w-50" type="text" name="cuil" placeholder="Cuil" required>
+                <input id="validationCustom04"class="form-control  w-50" type="text" name="calle" placeholder="Calle" required>
+                <input id="validationCustom05" class="form-control w-50" type="text" name="nroCalle" placeholder="Altura" required>
+                <button type="submit" class="btn btn-light w-25">Enviar</button>
+            </form>
+        </section>
     </main>
-
-
 </body>
 
 <link href="/styles/farmacia.css" rel="stylesheet">

@@ -2,6 +2,8 @@ package farmacia.domain;
 
 import farmacia.domain.enums.TipoMedicamento;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "producto_id")
+@PrimaryKeyJoinColumn(name = "id")
 public class Medicamento extends Producto {
 
+	@Enumerated(EnumType.STRING)
 	private TipoMedicamento tipo;
 	private double dosis;
 
@@ -31,6 +34,4 @@ public class Medicamento extends Producto {
 	public String toString() {
 		return super.toString() + " tipo = " + tipo + ", dosis = " + dosis;
 	}
-
-
 }
